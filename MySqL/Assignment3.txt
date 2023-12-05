@@ -1,0 +1,247 @@
+Assignment 3																	[23/10/2023]
+
+1)
+
+
+
+
+
+-------------------------------
+2)
+
+
+
+create table course (cid varchar(10) primary key  ,cname varchar (20) unique not null,fees int default 5000);
+
+
+mysql> desc course;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| cid   | varchar(10) | NO   | PRI | NULL    |       |
+| cname | varchar(20) | NO   | UNI | NULL    |       |
+| fees  | int         | YES  |     | 5000    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+create table trainer(tid varchar(10),tname varchar(20),cid varchar(10),salary int,experience int check (experience >=10),constraint tid_pk primary key(tid),constraint fk_cid foreign key (cid) references course (cid) on delete set null);
+
+mysql> desc trainer;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| tid        | varchar(10) | NO   | PRI | NULL    |       |
+| tname      | varchar(20) | YES  |     | NULL    |       |
+| cid        | varchar(10) | YES  | MUL | NULL    |       |
+| salary     | int         | YES  |     | NULL    |       |
+| experience | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+
+
+inserting data into course
+
+insert into course values ('c1','Core Java',7000),('c2','Linux',8000),('c3','Data structure',10000),('c4','Python',12000),('c5','Dot Net',null);
+mysql> select * from course;
++-----+----------------+-------+
+| cid | cname          | fees  |
++-----+----------------+-------+
+| c1  | Core Java      |  7000 |
+| c2  | Linux          |  8000 |
+| c3  | Data structure | 10000 |
+| c4  | Python         | 12000 |
+| c5  | Dot Net        |  NULL |
++-----+----------------+-------+
+5 rows in set (0.00 sec)
+
+inserting data into trainer 
+
+insert into trainer values('t1','Amit','c2',5000,15),('t2','rajan','c1',4000,17),('t3','Shruti','c2',7000,10),('t4','Arti','c2',9000,12),('t5','Sammer','c3',6000,19),('t6','Sanjay',null,8000,15),('t7','Soha',null,7000,12);
+
+mysql> select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| t1  | Amit   | c2   |   5000 |         15 |
+| t2  | rajan  | c1   |   4000 |         17 |
+| t3  | Shruti | c2   |   7000 |         10 |
+| t4  | Arti   | c2   |   9000 |         12 |
+| t5  | Sammer | c3   |   6000 |         19 |
+| t6  | Sanjay | NULL |   8000 |         15 |
+| t7  | Soha   | NULL |   7000 |         12 |
++-----+--------+------+--------+------------+
+7 rows in set (0.00 sec)
+
+insert  into trainer values('t15','Mahesh',null,16000,12),('t8','Meena','c3',25000,11),('t9',null,'c2',30000,10),('t10','Soham','c2',null,12),('t11','Anil','c3',null,11);
+
+mysql> select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| t1  | Amit   | c2   |   5000 |         15 |
+| t10 | Soham  | c2   |   NULL |         12 |
+| t11 | Anil   | c3   |   NULL |         11 |
+| t15 | Mahesh | NULL |  16000 |         12 |
+| t2  | rajan  | c1   |   4000 |         17 |
+| t3  | Shruti | c2   |   7000 |         10 |
+| t4  | Arti   | c2   |   9000 |         12 |
+| t5  | Sammer | c3   |   6000 |         19 |
+| t6  | Sanjay | NULL |   8000 |         15 |
+| t7  | Soha   | NULL |   7000 |         12 |
+| t8  | Meena  | c3   |  25000 |         11 |
+| t9  | NULL   | c2   |  30000 |         10 |
++-----+--------+------+--------+------------+
+12 rows in set (0.00 sec)
+
+delete from course where cid='c2';
+
+
+mysql> select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| t1  | Amit   | NULL |   5000 |         15 |
+| t10 | Soham  | NULL |   NULL |         12 |
+| t11 | Anil   | c3   |   NULL |         11 |
+| t15 | Mahesh | NULL |  16000 |         12 |
+| t2  | rajan  | c1   |   4000 |         17 |
+| t3  | Shruti | NULL |   7000 |         10 |
+| t4  | Arti   | NULL |   9000 |         12 |
+| t5  | Sammer | c3   |   6000 |         19 |
+| t6  | Sanjay | NULL |   8000 |         15 |
+| t7  | Soha   | NULL |   7000 |         12 |
+| t8  | Meena  | c3   |  25000 |         11 |
+| t9  | NULL   | NULL |  30000 |         10 |
++-----+--------+------+--------+------------+
+
+drop table trainer;
+
+create table trainer(tid varchar(10),tname varchar(20),cid varchar(10),salary int,experience int check (experience >=10),constraint tid_pk primary key(tid),constraint fk_cid foreign key (cid) references course (cid) on delete cascade);
+
+
+insert into trainer values('t1','Amit','c1',5000,15),('t2','rajan','c1',4000,17),('t3','Shruti','c3',7000,10),('t4','Arti','c3',9000,12),('t5','Sammer','c3',6000,19),('t6','Sanjay',null,8000,15),('t7','Soha',null,7000,12);
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+3)
+
+create table cust_vehicle 
+(
+tid int primary key,
+Custid int not null,
+vid int not null,
+sid int not null,
+Buy_price int  check (Buy_price>0)not null
+);
+
+
+mysql> desc cust_vehicle;
++-----------+------+------+-----+---------+-------+
+| Field     | Type | Null | Key | Default | Extra |
++-----------+------+------+-----+---------+-------+
+| tid       | int  | NO   | PRI | NULL    |       |
+| Custid    | int  | NO   |     | NULL    |       |
+| vid       | int  | NO   |     | NULL    |       |
+| sid       | int  | NO   |     | NULL    |       |
+| Buy_price | int  | NO   |     | NULL    |       |
++-----------+------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+
+
+
+insert into cust_vehicle values(1,1,1,10,75000),(2,1,2,10,790000),(3,2,3,11,80000),(4,3,3,11,75000),(5,3,2,10,800000);
+
+
+mysql> select *from cust_vehicle;
++-----+--------+-----+-----+-----------+
+| tid | Custid | vid | sid | Buy_price |
++-----+--------+-----+-----+-----------+
+|   1 |      1 |   1 |  10 |     75000 |
+|   2 |      1 |   2 |  10 |    790000 |
+|   3 |      2 |   3 |  11 |     80000 |
+|   4 |      3 |   3 |  11 |     75000 |
+|   5 |      3 |   2 |  10 |    800000 |
++-----+--------+-----+-----+-----------+
+5 rows in set (0.00 sec)
+
+ alter table cust_vehicle 
+add rating int not null;
+
+update cust_vehicle
+set rating=5 where Buy_price>90000;
+
+mysql> update cust_vehicle
+    -> set rating=5 where Buy_price>90000;
+Query OK, 2 rows affected (0.00 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select *from cust_vehicle;
++-----+--------+-----+-----+-----------+--------+
+| tid | Custid | vid | sid | Buy_price | rating |
++-----+--------+-----+-----+-----------+--------+
+|   1 |      1 |   1 |  10 |     75000 |      0 |
+|   2 |      1 |   2 |  10 |    790000 |      5 |
+|   3 |      2 |   3 |  11 |     80000 |      0 |
+|   4 |      3 |   3 |  11 |     75000 |      0 |
+|   5 |      3 |   2 |  10 |    800000 |      5 |
++-----+--------+-----+-----+-----------+--------+
+5 rows in set (0.00 sec)
+
+making vid,custid,sid in their  resp tables----->>
+
+vid ----> from vehicle table 
+
+alter table vehicle 
+add primary key(vid);
+
+mysql> desc vehicle;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| vid      | int          | NO   | PRI | NULL    |       |
+| vname    | varchar(30)  | YES  |     | NULL    |       |
+| Price    | int          | YES  |     | NULL    |       |
+| discount | int          | YES  |     | NULL    |       |
+| milage   | int          | YES  |     | NULL    |       |
+| details  | varchar(200) | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+custid---> from customer table 
+alter table customer
+add primary key (Custid);
+
+
+mysql> desc customer;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| custid   | int         | NO   | PRI | NULL    |       |
+| Cname    | varchar(30) | YES  |     | NULL    |       |
+| Location | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+
+sid------> from salesman1 table
+alter table salesman1
+add primary key (sid);
+
+mysql> desc salesman1;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| Sid        | int         | NO   | PRI | NULL    |       |
+| Sname      | varchar(30) | YES  |     | NULL    |       |
+| city       | varchar(30) | YES  |     | NULL    |       |
+| experience | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+------------------------------------------------------------------
+4)
+
+add vehicles in vehicle table 
+
+insert 

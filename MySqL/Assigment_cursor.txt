@@ -1,0 +1,129 @@
+Assignment Cursor                             [22/11/2023]
+
+1) Write a simple cursor to display each row of emp table. 
+
+
+delimiter //
+create procedure check_cur()
+begin 
+	 declare mempno int;
+	 declare mename varchar(30);
+	declare flag int default 0;
+	declare mycursor cursor
+	for select empno,ename from emp;
+	declare continue handler 
+	for not found set flag=1;	
+	open mycursor; 
+	lab1:loop 
+	fetch mycursor into mempno,mename ;
+	if flag=1 then 
+	   leave lab1;
+	end if;
+select mempno,mename ;
+end loop;
+close mycursor;
+end//
+delimeter ;
+
+call check_cur();
+
+------------------------------------------
+
+2) for the table Myproduct (Pid,pname,qty,price) write procedure which will give following discount on each product.
+	if price>5000 discount is 10% 
+	if price >1000 and <=5000 then discount is 7% 
+	otherwise discount is 3% 
+ display pid,pname,qty,price and discounted price for each product. write using cursor 
+
+delimiter //
+create procedure my_cur()
+begin 
+	declare mpid int ;
+	declare mpname varchar (20);
+	declare mqty int;
+	declare mprice float(6,2);
+	declare newprice int;
+	declare flag int default 0;
+	declare mycur cursor 
+	for select pid,pname,qty,price from product;
+	declare continue handler 
+	for not found set flag=1;  
+	open mycur;
+	lab1:loop
+		fetch mycur into mpid,mpname,mqty,mprice ;
+		if mprice > 50 then 
+			set newprice = mprice-(mprice*0.10);
+ 		elseif mprice>40 and mprice<=50 then 
+			set newprice = mprice-(mprice*0.07);	
+		else
+			set newprice = mprice-(mprice*0.03);
+		end if;
+	if flag=1 then 
+		leave lab1;
+	end if;
+	select mpid,mpname,mqty,mprice,newprice ;
+	end loop;
+	close mycur;
+end//
+delimiter ;
+
+output-->> 
+
+mysql> call my_cur();
++------+--------+------+--------+----------+
+| mpid | mpname | mqty | mprice | newprice |
++------+--------+------+--------+----------+
+|  111 | pepsi  |   40 |  50.00 |       46 |
++------+--------+------+--------+----------+
+1 row in set (0.00 sec)
+
++------+--------+------+--------+----------+
+| mpid | mpname | mqty | mprice | newprice |
++------+--------+------+--------+----------+
+|  123 | lays   |   30 |  30.00 |       29 |
++------+--------+------+--------+----------+
+
+-------------------------------------------------------------------------------------------------------
+
+3) Write procedure to increment sal of emps according to the job. 
+	manager- 5% 
+	clerk- 10%
+	Analyst - 7% 
+use cursor 
+
+
+delimiter //
+create procedure inc_sal()
+begin 
+	declare mename varchar(10);
+	declare mjob varchar(9);
+	declare msal decimal(7,2);
+	declare newsal decimal(7,2);
+	declare flag int default 0;
+	declare mycur cursor 
+	for select ename,job,sal from emp;
+	declare continue handler 
+	for not found set flag=1;
+	open mycur;
+	y:loop
+ 		fetch mycur into mename,mjob,msal ;
+	if mjob='manager' then 
+		set newsal=msal+(msal*0.05);
+	end if;
+	if mjob='clerk' then 
+		set newsal=msal+(msal*0.10);
+	end if;	
+	if mjob='analyst' then 
+		set newsal = msal+ (msal*0.07);
+	end if;
+	if flag =1 then 
+		leave y; 
+	end if;
+select mename,mjob,msal,newsal;
+end loop;
+close mycur;
+end//
+delimiter ;
+
+
+			

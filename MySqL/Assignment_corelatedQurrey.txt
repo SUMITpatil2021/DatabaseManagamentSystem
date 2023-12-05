@@ -1,0 +1,99 @@
+Assignment co-related QUeries      [11/11/2023]
+-----------------------------------------------------------------
+
+1)Write a querry which will display dept no and dept names to which no employees is assigned.
+
+queery-->>
+
+select d.deptno, d.dname
+from dept d
+where  not exists ( select e.deptno 
+		from emp e 
+		where e.deptno=d.deptno); 
+
+------------------------------------------------------------------------------------
+
+2)   Write a qurrry to display all employees whom dept is not assigned using exists/not exist
+
+select *from emp  e
+where not exists ( select deptno 
+		   from dept d
+		   where e.deptno=d.deptno);  
+
++-------+---------+------+------+----------+------+------+--------+
+| EMPNO | ENAME   | JOB  | MGR  | HIREDATE | SAL  | COMM | DEPTNO |
++-------+---------+------+------+----------+------+------+--------+
+|   444 | supriya | NULL | NULL | NULL     | NULL | NULL |     50 |
++-------+---------+------+------+----------+------+------+--------+
+1 row in set (0.01 sec)
+
+
+			
+)
+
+
+------------------------------------------------------------------------------------
+
+4) Display all employees earning salary more than at least one manager
+
+querry--->>
+
+select * from emp where sal> any(select sal from emp where job='manager');
+
++-------+-------+-----------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+-----------+------+------------+---------+------+--------+
+|  7566 | JONES | MANAGER   | 7839 | 1981-04-02 | 2975.00 | NULL |     20 |
+|  7698 | BLAKE | MANAGER   | 7839 | 1981-05-01 | 2850.00 | NULL |     30 |
+|  7788 | SCOTT | ANALYST   | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
+|  7839 | KING  | PRESIDENT | NULL | 1981-11-17 | 5000.00 | NULL |     10 |
+|  7902 | FORD  | ANALYST   | 7566 | 1981-12-03 | 3000.00 | NULL |     20 |
++-------+-------+-----------+------+------------+---------+------+--------+
+5 rows in set (0.01 sec)
+
+-----------------------------------------------------------------------------------------
+
+5) display all employees earning sal more than their manager's sal 
+
+select * from emp  e
+where e.sal > (select m.sal
+		 from emp  m
+		 where e.mgr=m.empno);
+
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7788 | SCOTT | ANALYST | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
+|  7902 | FORD  | ANALYST | 7566 | 1981-12-03 | 3000.00 | NULL |     20 |
++-------+-------+---------+------+------------+---------+------+--------+
+2 rows in set (0.00 sec)
+
+-----------------------------------------------------------------------------------------
+
+6) display all employees who joined before  their manager
+
+Querry -->>
+
+select * from emp e
+where hiredate < (select hiredate from emp m where e.mgr=m.empno);
+
+output-->>
+
++-------+-------+----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME | JOB      | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+-------+----------+------+------------+---------+--------+--------+
+|  7369 | SMITH | CLERK    | 7902 | 1980-12-17 |  800.00 |   NULL |     20 |
+|  7499 | ALLEN | SALESMAN | 7698 | 1981-02-20 | 1600.00 | 300.00 |     30 |
+|  7521 | WARD  | SALESMAN | 7698 | 1981-02-22 | 1250.00 | 500.00 |     30 |
+|  7566 | JONES | MANAGER  | 7839 | 1981-04-02 | 2975.00 |   NULL |     20 |
+|  7698 | BLAKE | MANAGER  | 7839 | 1981-05-01 | 2850.00 |   NULL |     30 |
+|  7782 | CLARK | MANAGER  | 7839 | 1981-09-06 | 2450.00 |   NULL |     10 |
++-------+-------+----------+------+------------+---------+--------+--------+
+6 rows in set (0.00 sec)
+
+----------------------------------------------------------------------------------------------------
+
+Interview Question --->>
+
+
+select *from emp order by 

@@ -1,0 +1,99 @@
+Assignment DML In MySQL 				         [9/11/2023]	
+
+1)
+***creating parent table cousrses
+create table courses
+( cid int primary key,
+cname varchar(20) unique not null ,
+fees int not null,
+duration int not null);	
+
+***creating child table staff
+
+create table staff (
+tid char(2) primary key,
+tname varchar(20) not null,
+cid int, 
+constraint fk_id foreign key(cid) references courses(cid) on update cascade);
+
+alter table  staff 
+add sal int; 
+
+2) insert data-
+
+insert into courses---
+
+insert into courses values(2,'CPP',8000,8),(3,'core java',10000,100),(4,'Oracle',12000,80),(5,'mongoDB',8000,50),(6,'Wp',20000,150);
+insert into courses values(1,'c -programming',5000,40);
+
+
+insert data in staff--
+insert into staff values('t1','Smita',1,20000),('t2','amit',2,25000),('t3','rohan',2,28000),('t4','Archana',3,25000),('t5','Raj',4,30000),('t6','Rutuja',6,36000);
+
+
+3) update courses
+   set 	fees=fees+(fees*8/100)
+   where cname='Wp';	
+
+4) 
+select count(cname) from courses;
+
+5)
+update courses 
+set cid=7 
+where cname='cpp'; 
+
+6) select *from courses where fees between 25000 and 30000;
+
+7)  select sum(fees) from courses; 
+
+8) select min(fees) from courses;
+
+9) select *from staff order by sal desc limit 1;
+
+10) select *from courses order by duration limit 1; 
+
+11) insert into staff values 
+	('t7','Geeta',null,12000),
+	('t8','Seema',null,18000),
+	('t9','Umesh',null,null),
+	('t10','Sumeet',6,21000); 
+
+	alter table staff modify tid varchar(10);
+
+12) alter table staff 
+	add incentive float(6,2);
+
+13) update  staff set incentive =1000  where cid=7;
+
+14) update staff set incentive =800 where cid=1;
+
+15) select * from staff  where incentive  is not null;
+
+16) select  count(*)from staff where incentive is null;
+
+17) select  * from staff where tname like '%ee%';
+
+18) select  tid,tname , cid, sal, incentive ,  sal+ifnull(incentive,0) "total salary" from staff;  
+
+19) delete from courses where cname='Wp'; 
+---->> ERROR 1451 (23000): Cannot delete or update a parent row: 
+       a foreign key constraint fails (`knowit`.`staff`, CONSTRAINT `fk_id` FOREIGN KEY (`cid`)
+       REFERENCES `courses` (`cid`) ON UPDATE CASCADE)	
+
+20) select cid,count(*) from staff group by cid; 
+
+21) select s.tid,s.tname , c.cid, c.cname from staff s,courses c  where s.cid=c.cid;
+
+22) select s.tid,s.tname, c.cid,c.cname from staff s,courses c where s.cid=c.cid and c.duration > 50;	
+
+23) select count(*) from courses where fees>10000;
+
+24) select *from courses order by duration desc;
+
+25) select *from courses order by fees limit 0,3;
+
+26)  alter table staff 
+	add email varchar(20);	
+
+27) update staff set email=concat(substr(tname,1,3),substr(ifnull(cid,0),1,1),'@Knowit.com');	

@@ -1,0 +1,174 @@
+--open third cmd
+
+--Import following movie.json using the command given below
+
+>mongoimport --db test --collection movie -- file "path\movie.json"
+
+
+1.
+db.movie.find({rating : 4}).pretty();
+
+2.
+db.movie.find({rating : 3, price : 200}).pretty();
+
+3.
+db.movie.find({rating:{$gt : 3},price:540});
+
+4.
+db.movie.find({rating:{$gt:3},price:{$gt:300}}).pretty();
+
+5.
+db.movie.find({price:{$gt : 200,$lt : 400}}).pretty();
+
+6.
+db.movie.find({price: {$in:[200,540,400]}},{_id:0}).pretty();
+
+7.
+db.movie.find({price: {$nin:[200,540,400]}},{_id:0}).pretty();
+
+8.
+db.movie.find({price: {$nin:[200,540,400]}},{_id:0}).count();
+
+9.
+db.movie.find({rating:4 , price: {$gt:300}},{_id:0}).pretty();
+
+10.
+db.movie.find({price: {$not: {$gt:200, $lt :400}}}).pretty();
+
+11.
+db.movie.find({rating: {$mod :[2,1]}},{_id:0}).pretty();
+
+12.
+db.movie.find({actor: 'Amitabh'},{_id:0}).limit(1);
+
+13.
+db.movie.find({actor: 'Amitabh'},{_id:0}).limit(5).pretty();
+
+14.
+db.movie.find({actor: 'Amitabh'},{_id:0}).skip(4).limit(3).pretty();
+
+15.
+db.movie.find({actor: 'Amitabh'},{_id:0}).pretty();
+
+16.
+db.movie.find({actor: 'Amitabh'},{_id:0}).sort({price: 1}).pretty();
+
+17.
+db.movie.find({actor: 'Amitabh'},{_id:0}).sort({price:-1}).pretty();
+
+18.
+db.createCollection("dept",{capped:true,max:5,size:5000000,autoIndexId:true})
+
+db.dept.insertMany([{dno: 1,dname: 'HR',location:'Pune'},{dno:2, dname:'Accounts',location: 'Mumbai'},{dno:3,dname: 'Marketing',location: 'Pune'},{dno:4, dname: 'Finance',location: 'Mumbai'},{dno:5, dname: 'Customer Support', location: 'Mumbai'}])
+ 
+db.dept.insert({dno:6,dname: 'Sales',location: 'Delhi'});
+
+19.
+db.movie.find({ }).sort({rating: -1}).limit(5).pretty();
+
+20.
+db.movie.find({ },{_id:0}).sort({rating: 1}).limit(3).pretty();
+
+21.
+db.movie.update({name: "kahani 2"},{$set:{rating: 7}},{multi: true})
+
+22.
+db.movie.updateMany({name: "kahani"},{$set:{price:400}}, {$inc: {rating: 2}});
+
+23.
+db.movie.updateMany({},{$inc: {price: 40}})
+
+24.
+db.movie.update({},{$inc: {price: price+(price*0.1)} )
+
+25. Display all movies with amitabh acted in it and is at 1 st index position in array
+
+db.movie.find({name: 'Amitabh'});
+
+26.
+db.movie.find({name: /^[0-9]/}).pretty();
+
+27.
+db.movie.find({name: /^[0-9].*s$/},{_id:0}).pretty();
+
+28.
+db.movie.find({name: /^[A-Za-z]/},{_id:0}).pretty();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+14.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

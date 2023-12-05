@@ -1,0 +1,56 @@
+Assignment No. 5 																										[26/10/2023]
+
+
+1) select avg(sal) from emp; (display avg of salary )
+
+2) select avg(sal) from emp where deptno=10; ( Display avg salary of working under deptno 10)
+
+3) select max(sal),deptno from emp group by deptno;  (display max sal of employee with deptno)
+
+4) select count(empno),deptno from emp group by deptno; (display numbers of employees working in each dept)
+
+5) select count(job) from emp where job='manager'; 
+
+6) select count(job),job from emp group by job;
+
+
+	[27/10/2023]  ---->>> Using having clause
+
+7) select count(*),deptno  from emp group by deptno having count(deptno)>3; 
+
+8) select job,count(*) from emp group by job having count(deptno)>3;  (List of jobs if there are >3 employees assigned to that job)
+
+9) select sum(sal),deptno from emp group by deptno;  (display sum of salaries and deptno for all deptartments)
+
+10) select deptno,max(sal),min(sal),avg(sal) from emp group by deptno;  (Display max,min,avg along with deptno according to depetno)
+
+11) select deptno,sum(sal) from emp group by deptno having sum(sal)>1500;  (Find sum of sal of all emp who earn >1500 )
+
+12) select deptno,count(*) from emp where job='clerk' group by deptno ;  (display no.of clerks working in each dept.)
+
+13) select mgr,count(*) from emp group by mgr;  (display how many numbers working under same manager (MGR))
+
+14) select deptno,avg(sal) from emp group by deptno having avg(sal)>2000;  (Display all dept whose avg sal>2000) 
+
+15) select deptno,count(*) from emp group by deptno;  (display count of employees working under each dept)
+
+16)  
+ 
+	Display all mgr under whom more than 2 analyst or salesman are working  
+
+select mgr "More than 2 ", count(*) from emp
+  where(job='analyst' or job='salesman') 
+group by mgr 
+having count(*) >2;  
+
+17) select count(comm) from emp;  (display count of employees getting commission )
+
+18) select max(sal)-min(sal) "Diff of max min sal " from emp where deptno=20 ;  (display diff between max sal and min sal for deptno 20) 
+
+19) select * from emp where comm is null  and deptno between 20 and 30;  (List employees in depyt 20 and 30 who did not get any comm)
+
+20) select sum(sal) from emp  where deptno !=30  group by  job having sum(sal)>5000;  (display sum of sal according to job excluding deptno 30)
+
+21) select job,max(sal) from emp where (job='manager' or job='clerk' or job='salesman' )and deptno in ( 10,20) group by job order by max(sal) desc;
+
+22) select deptno from emp group by deptno having count(*)>=4;  (display deptno having atleast 4 emp in it)

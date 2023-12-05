@@ -1,0 +1,62 @@
+Assignment on Views and Index  and partition by         [20/11/2023]
+ 
+
+**********************Views and Index *******************
+1) create a view emp_view on table emp with columns as empno,ename,deptno and sal 
+querry-->>
+
+create view emp_view 
+as select empno,ename,deptno,sal 
+from emp ; 
+
+--------------------------------------------------------------------------
+
+2) Add new row(1002,'Amitabh',30,70000) in the view and check in  base tables as well as view 
+
+insert into emp_view values(1002,'Amitabh',30,70000); 
+
+
+
+3) Add new row(1003,'Dipika',20,80000) in the base table and check in view as well as base table 
+
+insert into emp(empno,ename,deptno,sal) values (1003,'Dipika',20,80000); 
+
+
+
+4) create a view job_name on table emp for salesman.   insert  data and check 
+
+ create view job_name 
+as  select *from emp
+where job='salesman'
+with check option;
+  
+insert into job_name(empno,ename,job) values(555,'kunal','Salesman');
+----------------------------------------------------------------------------------
+
+5) create an index on sal column for emp table. check if search time is reduced.
+
+create index sal_index 
+on emp(sal); 
+
+-----------------------------------------------------------------------------------------
+
+6) create an index on  ename column in table emp.check if search time is reduced 
+
+create index ename_index 
+on emp(ename); 
+
+ 
+**************** Partition by ****************
+ 
+
+(From Assignment DML in MySQL )
+
+
+28) display empno,ename,deptno,sum(sal) for each dept using partition by clause.
+
+Querry-->> select empno,ename,deptno,sum(sal) over (partition by deptno ) "sum of salary"from emp;
+
+
+29 )  display empno,ename,deptno,avg(sal) for each job , count of employees of each job using partitiob by clause 
+
+Qurry--->>  select empno,ename,deptno,job,avg(sal) over(partition by job) "avg salary" , count(*) over(partition by job) "emps"  from emp;

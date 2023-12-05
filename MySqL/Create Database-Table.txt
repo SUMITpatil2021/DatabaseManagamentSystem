@@ -1,0 +1,125 @@
+**************DataBase Technolgies************** 													    [	Day 1 - 18/10/2023 Wedensday ]      
+*******************MySqL**************************                                                                                               --------------------------------------------
+
+
+
+---------------------------------------------------------------------------
+MySqL basic Commands-
+1) show databases; ----> used for display all the databases 
+2) describe table_name;  ---> to display table scelitine 
+-------------------------------------------------------------------------
+
+
+** Table name and commands are not case sensitive in sql. 
+------------------------------------------------------------------
+steps for creating database
+1.create database (Sql command-  create database database_name )
+2.use database    (sql command - use database name )
+3.create table    ( sql command- create table table_name)
+---------------------------------------------------------------------
+
+-------------------------------------------------------------------
+syntax to create table -
+
+create table table_name
+(
+	column1 data type,
+	column2 data type,
+	   .....
+	............
+	column n data type
+);
+
+
+example---
+
+create table employee
+(
+	eno int,
+	ename varchar,
+	sal int,
+	hiredate date
+);
+
+-------------------------------------------------------------------------
+syntax for to data in table 
+
+insert into table_name
+values (value1, value2,...,value N); 
+       --or--
+
+insert into table_name(col1,col2, ....., conl n)
+values(val1,val2,.....,valn);
+
+
+Example---
+
+insert into employee
+values(1,'SUMIT',50000,'2001-02-21');
+
+	--or--
+insert into employee(eno,ename,sal,hiredate)
+values(2,'AKSHAY',60000,'2001-05-11'); 
+
+*********************************************************************************
+ we can also  add multiple entities into table in single line command like this,
+
+insert into employee values(1,'SUMIT',50000,'2001-02-21'),(2,'AKSHAY',50000,'2001-02-21'),(3,'SUMIT',50000,'2001-02-21');
+
+-----------------------------------------------------------------------
+Display values(rows) of table 
+
+syntax -- select col1,col2,.... from table_name;
+
+example --- 
+	    select eno,ename,sal,hiredate from employee;
+
+
+## for display particular claus
+
+	select ename,sal from employee;
+
+## for display all claus 
+	 select * from employee;
+-------------------------------------------------------------------
+  
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+question: 1) create a table of employee with entities having eno, ename,sal,hiredate schema--employee(eno,ename,sal,hiredate)
+
+sql querry :
+ mySqL> show databases;
+ mySqL>	create database knowIT;
+     -> use knowIT;
+     ->	create table employee (eno int, ename varchar(15),sal int, hiredate date);
+     -> describe employee;
+     -> insert into employee values  (1,'SUMIT',50000,'2023-10-18');
+     ->	insert into employee values  (2,'SHUBHAM',60000,'2022-11-15'); 
+     ->	insert into employee values  (3,'KUNAL',60000,'2022-09-15');
+     ->	insert into employee values  (2,'AKSHAY',80000,'2023-11-15');
+     -> select * from employee; 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+question: 2) create a table of employee with entities having eno, ename,sal,hiredate schema--employee(eid,name,dept,salary)
+Sql Querry:
+
+mySql> show databases;
+    -> create database Demo;
+    -> use Demo; 
+    -> create table employee (eid int, name varchar(15),dept varchar (15),salary int);
+    -> describe employee;
+    ->insert into employee values (1,'SUMIT','Development',6500000),(2,'SHUBHAM','Testing ',500000),(3,'KUNAL','Debugging',450000),(4,'AKSHAY','Embedded developer',60000),
+				  (6,'Supriya','Admin',700000),(7,'sarvesh','Networking',700000),(8,'Prabodh','Admin',700000);
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ 
+
+
+
+
+
+
+
+

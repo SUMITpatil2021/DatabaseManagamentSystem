@@ -1,0 +1,145 @@
+Assignment Stored Functions                      [22/11/2023]
+
+1) Write a stored functions to calculate total salary  
+ 
+
+set global log_bin_trust_function_creators=1;
+delimiter //
+create function total_sal(msal decimal(7,2),mcomm decimal(7,2))
+returns decimal(7,2)
+begin 
+	declare x decimal(7,2);
+	set x=msal  + ifnull(mcomm,0);
+	return x;
+end//
+delimiter ;
+
+function call -->>
+
+select  ename,sal,comm, total_sal(sal,comm) "Total Salary" from emp;
+
+output--> 
+mysql> select  ename,sal,comm, total_sal(sal,comm) "Total Salary" from emp;
++---------+----------+---------+--------------+
+| ename   | sal      | comm    | Total Salary |
++---------+----------+---------+--------------+
+| SMITH   |   800.00 |    NULL |       800.00 |
+| ALLEN   |  1600.00 |  300.00 |      1900.00 |
+| WARD    |  1250.00 |  500.00 |      1750.00 |
+| JONES   |  2975.00 |    NULL |      2975.00 |
+---------------------------------------------------------
+when we want to set comm according to our reqiurment 
+ set @comm=400;
+select  ename,sal,comm, total_sal(sal,@comm) "Total Salary" from emp;
+
+output-->> 
+
+
+mysql> set @comm=400;
+     > select  ename,sal,comm, total_sal(sal,@comm) "Total Salary" from emp;
++---------+----------+---------+--------------+
+| ename   | sal      | comm    | Total Salary |
++---------+----------+---------+--------------+
+| SMITH   |   800.00 |    NULL |      1200.00 |
+| ALLEN   |  1600.00 |  300.00 |      2000.00 |
+| WARD    |  1250.00 |  500.00 |      1650.00 |
+| JONES   |  2975.00 |    NULL |      3375.00 |
+| MARTIN  |  1250.00 | 1400.00 |      1650.00 |
+| BLAKE   |  2850.00 |    NULL |      3250.00 |
+-------------------------------------------------------------
+
+
+2) Write function which will generate an email for employee 
+email id is generated as follows -- 
+	ename-first 3 letters in small  
+	job -last 2 letters in capital 
+	@knowit.com 
+  
+querry-->>
+
+set global log_bin_trust_function_creators=1;
+delimiter //
+create function generate_mail(mename varchar(10),mjob varchar(9))
+returns varchar(30)
+begin  
+	declare mail varchar(30);
+	set mail=concat(lower(substr(mename,1,3)),upper(substr(mjob,-2,2)),'@knowit.com');
+        return mail;
+end//
+delimiter ;
+
+select ename,job,generate_mail(ename,job) "Mail ID" from emp;
+ 
+
+output-->> 
+
++---------+-----------+------------------+
+| ename   | job       | Mail ID          |
++---------+-----------+------------------+
+| SMITH   | CLERK     | smiRK@knowit.com |
+| ALLEN   | SALESMAN  | allAN@knowit.com |
+| WARD    | SALESMAN  | warAN@knowit.com |
+----------------------------------------------------------------------
+
+3) Write a function calculate which calculates incremeneted salary depeneding on the job of an employee
+     incremeneted sal by 5% for manager 
+     incremeneted sal by 7% for clerk 
+     incremeneted sal by 10% for analyst 
+
+set global log_bin_trust_function_creators=1;
+delimiter //
+create function calculate(mjob varchar(9),msal decimal(7,2))
+returns decimal(7,2)
+begin 
+	declare newsal decimal(7,2); 
+	if mjob='manager' then 
+	set newsal=msal+(msal*0.05);
+	elseif  mjob='clerk' then 
+	set newsal=msal+(msal*0.07);
+	elseif mjob='analyst' then 
+	set newsal=msal+(msal*0.10);
+	end if;
+	return newsal;
+end//
+delimiter ;
+
+select  ename,job,sal,calculate(job,sal) "New Salary" from emp;	
+
+output-->> 
+
++---------+-----------+----------+------------+
+| ename   | job       | sal      | New Salary |
++---------+-----------+----------+------------+
+| SMITH   | CLERK     |   800.00 |     856.00 |
+| ALLEN   | SALESMAN  |  1600.00 |       NULL |
+| WARD    | SALESMAN  |  1250.00 |       NULL |
+| JONES   | MANAGER   |  2975.00 |    3123.75 |
+| MARTIN  | SALESMAN  |  1250.00 |       NULL |
+| FORD    | ANALYST   |  3000.00 |    3300.00 |
+---------------------------------------------------------------------------
+
+4) Write a function to display following string for emp rows 
+    smith is cleark 
+
+drop function display_string;
+delimiter //
+create function display_string(mename varchar(10),mjob varchar(9))
+returns  varchar(50) 
+begin 
+	declare str varchar(50);
+	set str=concat(mename ," is a " ,mjob);
+	return str; 
+end//
+delimiter ;
+
+select ename,job,display_string(ename,job) "String " from emp; 
+
+output-->> 
+
++---------+-----------+----------------------+
+| ename   | job       | String               |
++---------+-----------+----------------------+
+| SMITH   | CLERK     | SMITH is a CLERK     |
+| ALLEN   | SALESMAN  | ALLEN is a SALESMAN  |
+| WARD    | SALESMAN  | WARD is a SALESMAN   |
+------------------------------------------------------------------------

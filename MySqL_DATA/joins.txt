@@ -1,0 +1,141 @@
+create table product
+(
+pid int,
+pname varchar(20),
+price float(6,2) default 20.00,
+qty int check(qty>0),
+cid int,
+sid int,
+constraint pk_pid primary key(pid),
+constraint fk_cid1 foreign key(cid) references category(cid) on delete set null,
+constraint fk_sid foreign key(sid) references salesman(sid)
+);
+
+insert into product values
+(123,'lays',30.00,30,1,12),
+(111,'pepsi',50.00,40,4,11),
+(134,'nachos',50.00,50,1,12),
+(124,'dairy milk',60.00,40,2,14),
+(125,'pringles',60.00,40,1,14);
+
+
+create table category(
+cid int,
+cname varchar(15) unique not null,
+description varchar(30),
+constraint pk_catid primary key(cid)
+);
+
+insert into category values(1,'chips','crunchy'),
+(2,'chocolate','very chocolaty'),
+(3,'snacks','yummy'),
+(4,'cold drinks','thanda thanda cool cool');
+
+create table salesman
+(
+sid int ,
+sname varchar(20) unique not null,
+city varchar(20),
+constraint pk_sid primary key(sid)
+);
+
+insert into salesman values
+(11,'rahul','pune'),
+(12,'kirti','mumbai'),
+(13,'prasad','nashik'),
+(14,'arnav','amarvati');
+
+1.
+select p.pid,p.pname,p.cid,c.cname
+from product p
+inner join category c
+on p.cid=c.cid 
+where c.cname='chips';
+
+2.
+select * 
+from product p
+inner join salesman s
+on p.sid=s.sid
+where s.sname='kirti';
+
+3.
+select *
+from salesman s
+left join product p 
+on p.sid=s.sid
+where p.sid is null;
+
+4.
+select *
+from category c
+left join product p
+on p.cid=c.cid
+where p.cid is null;
+
+5.
+select *
+from product p
+right join category c
+on p.cid=c.cid
+where p.cid is null;
+
+6.
+select * 
+from salesman s
+where  regexp_like(city,'^[pn]');
+
+7.
+alter table salesman add credit_limit int;
+
+8.
+select p.pid,p.pname,p.qty,p.price,c.cid,c.cname,c.description
+from product p
+join category c
+on p.cid=c.cid;
+
+9.
+select p.pid,p.pname,p.qty,p.price,s.sid,s.sname,s.city
+from product p
+join salesman s
+on p.sid=s.sid;
+
+10.
+select e.empno,e.ename,e.deptno,d.dname
+from emp e
+join dept d
+on e.deptno=d.deptno;
+
+11.
+select e.empno,e.ename,e.deptno,e.sal,s.grade
+from emp e
+join salgrade s
+on e.sal between s.losal and s.hisal;
+
+12.
+select e.empno,e.ename,e.mgr,m.ename
+from emp e
+join emp m
+on e.mgr=m.empno;
+
+13.
+insert into emp (empno,ename,deptno)values (9999,'pooja',90);
+
+select *
+from emp e
+left join dept d
+on e.deptno=d.deptno
+where d.deptno is not null;
+
+
+14.
+insert into dept(deptno,dname)
+values(80,'training');
+
+(select * from dept d 
+left join emp e on e.deptno=d.deptno
+where d.deptno is  null)
+union
+(select * from dept d 
+left join emp e on e.deptno=d.deptno
+where d.deptno is  not null);

@@ -1,0 +1,114 @@
+Assignment MongoDB 1                 [23/11/2023] 
+
+Operator assignment 
+
+
+1)  display all movies with rating =4 
+
+ db.movie.find({rating:4},{_id:0})
+
+2) Display all movies with rating=3 and price=200 
+
+db.movie.find({rating:3,price:200},{_id:0}) 
+
+3) Display all  movies with rating >3 and price=540 
+
+
+db.movie.find({rating:{$gt:3},price:540}) 
+
+4) Display all movies with rating>3 and price >300
+
+
+db.movie.find({rating:{$gt:3},price:{$gt:300}}).pretty() 
+
+
+5) display all movies with price >200 and <400 
+
+db.movie.find({price:{$gt:200,$lt:400}}).pretty() 
+
+
+6) Display all movies with price =200 or 540 or  400 
+
+db.movie.find({price:{$in:[200,540,400]}},{_id:0}).pretty() 
+
+
+7) Display all movies with price not =200 nor 540 nor 400 
+
+ 
+db.movie.find({price:{$nin:[200,540,400]}},{_id:0}).pretty()  
+
+8) Display count of movies with price not=200 nor 540 nor 400  
+
+db.movie.find({price:{$nin:[200,540,400]}},{_id:0}).count(); 
+
+
+9) Display all movies with rating =4 or price >300 
+
+
+db.movie.find({$or:[{rating:4},{price:{$gt:300}}]},{_id:0}).pretty() 
+
+10) display all movies with price not >200 and <400 
+
+db.movie.find({price:{$not:{$gt:200,$lt:400}}},{_id:0}).pretty() 
+
+11) Display all movies with rating is odd 
+
+db.movie.find({rating:{$mod:[2,0]}},{_id:0}).pretty();
+
+12) display all movies in which amitabh has acted.  
+
+db.movie.find({actor:/^[Aa]mitabh/}) 
+
+13) Display all movies in which amitabh has acted display in ascending order of price.
+
+db.movie.find({actor:/[Aa]mitabh/}).sort({price:1})
+
+
+14)  display all movies in which amitabh is  acted display in descending order of price.
+
+db.movie.find({actor:/[Aa]mitabh/}).sort({price:-1}).pretty()
+
+15) display all movies in which amitabh has acted display only 1st document
+
+db.movie.find({actor:/[Aa]mitabh/},{_id:0}).limit(1).pretty()
+
+
+16) display all movies in which amitabh has acted display only 1st 5 document. 
+
+
+db.movie.find({actor:/[Aa]mitabh/},{_id:0}).limit(5).pretty()
+
+
+17) display all movies in which  amitabh has acted display display only 5 6th and 7th.
+
+db.movie.find({actor:/[Aa]mitabh/},{_id:0}).limit(5,2).pretty() 
+
+
+18 ) create a capped collection of size 5 by name dept.
+  store dno,dname,location 
+   test this capped collection by adding new documents.  
+
+
+db.createCollection("dept",{capped:true,size:5,max:500000,autoIndexId:true})
+
+db.dept.insertMany([{dno:1,dname:'HR',location:'Pune'},{dno:2,dname:'Acconts',location:'Mumbai'}])
+
+db.dept.insertMany([{dno:3,dname:'Marketing',loction:'Pune'},{dno:4,dname:'Finence',location:'Mumbai'},{ dno:5,dname:'CustomerSupport',location:'Mumbai'}])
+db.dept.insert({dno:6,dname:'Sales',location:'Delhi'})
+
+19) display top 5 highest rating movies. 
+
+db.movie.find().sort({rating:-1}).limit(5).pretty() 
+
+
+20) display lowest  3 rating movies.
+
+db.movie.find({},{_id:0}).sort({rating:1}).limit(3).pretty()
+
+
+21) for movie "Kahani 2 " change rating to 5 
+
+db.movie.update({name:"kahani 2"},{$set:{rating :7}},{multi:true}) 
+ 
+22) 
+

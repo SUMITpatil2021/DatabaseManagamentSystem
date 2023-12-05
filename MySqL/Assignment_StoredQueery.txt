@@ -1,0 +1,247 @@
+Assignment PL-SQL (Sortted Querry)             [21/11/2023]
+
+1) Write a stored procedure which will  find avg of all the salaries in the table
+
+delimiter //
+create procedure avg_sal()
+begin 
+	select avg(sal) from emp ;
+end //
+delimiter ; 
+
+output-->
+
++--------------+
+| avg(sal)     |
++--------------+
+| 11189.062500 |
++--------------+
+-----------------------------------------------
+
+2) Write a stored procedure which will find avg salary of dept no 20 
+
+delimiter //
+create procedure avgsal_dept20()
+begin 
+	select avg(sal) 
+	from emp 
+	where deptno=20;
+end//
+delimiter ;
+
+output--->>
+
++--------------+
+| avg(sal)     |
++--------------+
+| 15145.833333 |
++--------------+
+
+-----------------------------------------
+
+3) Write a stored procedure which will find avg salary for any dept passed to it.
+
+delimiter //
+create procedure avgsal_dept(in mdept int) 
+begin 
+	select mdept,avg(sal) from emp 
+	where deptno=mdept;
+end//
+delimiter ;
+output-->>
+
+mysql> call avgsal_dept(20);
++-------+--------------+
+| mdept | avg(sal)     |
++-------+--------------+
+|    20 | 15145.833333 |
++-------+--------------+
+1 row in set (0.00 sec)
+-------------------------------------------
+
+4) Write a stored procedure which accepts a number and finds the facorial of a number 
+   display factorial in the procedure 
+
+drop procedure if exists factorial;
+delimiter ##
+create procedure factorial(in num int)
+begin  
+	
+	declare fact int;
+	declare  i int;
+	set fact=1;
+	set i=1;
+	select num;
+	while i<=num
+	do 
+ 	set fact=fact*i;
+	set i=i+1;
+	end while;
+	select num,fact;
+end##
+delimiter ; 
+
+output-->>
+
+mysql> call factorial(6);
++------+
+| num  |
++------+
+|    6 |
++------+
+1 row in set (0.00 sec)
+
++------+------+
+| num  | fact |
++------+------+
+|    6 |  720 |
++------+------+
+1 row in set (0.01 sec)
+----
+
+
+
+
+using repeat until 
+
+delimiter ##
+ create procedure fact(in num int)
+     begin
+     declare fact1 int;
+     declare fact2 int;
+     set fact1=1;
+     set fact2=1;
+     repeat
+     select num;
+     set fact2=fact2+1;
+     set fact1=fact1*fact2;
+     until fact2<=num;
+     end repeat;
+     select fact1;
+     end##
+
+---------------------------------------------
+
+5) Write procedure which accepts a number as in parameter and prints 1 if a number 
+   is prime number else print 0.  
+
+drop procedure if exists check_prime;
+delimiter //
+create procedure check_prime(in num int)
+begin 
+	declare i int;
+	declare res int;
+	set i=2; 
+
+	select num;
+label:while i<num
+	do   
+	if(num % i=0 ) then  
+     	set res=0; 
+	leave label;
+	else
+	set res=1;
+	
+	end if;
+         set i=i+1;
+	end while; 
+	select res;
+end//
+delimiter ;
+
+
+
+mysql> delimiter ;
+mysql> call check_prime(4);
++------+
+| num  |
++------+
+|    4 |
++------+
+1 row in set (0.00 sec)
+
++------+
+| res  |
++------+
+|    0 |
++------+
+1 row in set (0.01 sec)
+
+ Query OK, 0 rows affected (0.02 sec)
+
+mysql> call check_prime(5);
++------+
+| num  |
++------+
+|    5 |
++------+
+1 row in set (0.00 sec)
+
++------+
+| res  |
++------+
+|    1 |
++------+
+1 row in set (0.01 sec)
+
+-------------------------------------------------------------------
+
+6) Write procedure to check if employees exists in 
+
+drop procedure emp_exist;
+ delimiter //
+ create procedure emp_exist(in memp int)
+ begin 
+	declare msg1 varchar(30);
+	declare msg2 varchar(30);
+	declare eno int;
+	set msg1="Employee Found";
+	set msg2="Unknown Number";
+	select empno into eno from emp where empno=memp; 
+	if eno=memp then 
+	select msg1;
+	else
+	select msg2;
+	end if;
+end//
+delimiter ;
+	
+-----------------------------------
+
+7) write a procedure which accepts empno and sal as in paramenter.
+  change sal in the table to the new sal passed as in para. for empno passed as para. 
+
+Querry-->> 
+
+drop procedure update_sal;
+ delimiter //
+create procedure update_sal(in meno int,newsal int)
+begin 
+	update emp
+	set sal=newsal
+	where empno=meno;
+end//
+delimiter ; 
+
+mysql> set @k=50000; 
+     > call update_sal(444,@k);
+     > select @k;
+  
+ ------------------------------------------------------------
+
+8) Pass empno,ename,job,sal to the procedure and insert a new row with these values in emp table 
+
+delimiter //
+create procedure insert_data(in mempno int,in mename varchar(30),in mjob varchar(30),in msal int)
+begin 
+	insert into emp(empno,ename,job,sal) values(mempno,mename,mjob,msal);
+end//
+delimiter ; 
+
+passing values -->> 
+call insert_data(21,'sumit','manager',50000);
+ 
+
+-------------------------------------------------------
+
+

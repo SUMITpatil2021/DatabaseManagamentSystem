@@ -1,0 +1,146 @@
+20.
+select empno,ename,deptno
+from emp where job='manager' and empno=7698;
+
+21.
+select * from emp where
+sal>(select sal from emp where ename='smith');
+
+22.
+select count(*),deptno from emp where
+sal>1500 group by deptno;
+
+23.
+select * from emp where job='manager' and deptno=10;
+
+24.
+select * from emp where deptno in(20,30) and comm is null;
+
+25.
+select * from emp where comm is not null;
+
+26.
+select count(*) from emp where
+
+27.
+select job from emp;
+
+28.
+select ename,length(ename) from emp;
+
+29.
+select ename,concat(lower(substr(ename,1,3)),upper(substr(ename,4))) "new name" from emp;
+
+30.
+update emp set sal=sal+(sal*10/100) where floor((datediff(curdate(),hiredate))/365)>40;
+
+31.
+select * from emp where sal between 1000 and 3000;
+
+33.
+
+
+34.
+select deptno,sum(sal),min(sal) from emp where job='manager';
+
+
+
+
+Corelated Query:
+
+1.
+select deptno,dname
+from dept d
+where not exists(select deptno from emp
+where deptno=d.deptno);
+
+2.
+select * 
+from emp e
+where not exists(select deptno from dept where deptno=e.deptno);
+
+3.
+select * 
+from emp e
+where sal> any(select sal from emp where job='manager');
+
+4.
+select * 
+from emp e
+where e.sal > (select m.sal from emp m
+where e.mgr=m.empno); 
+
+5.
+select * from emp e
+where e.hiredate <
+(select m.hiredate from emp m where e.mgr=m.empno);
+
+
+create table faculty
+(
+fid int primary key,
+fname varchar(20) not null,
+sp_skill1 varchar(30),
+sp_skill2 varchar(30)
+);
+
+insert into faculty values
+(10,'Amol','database','java'),
+(11,'Asha','java','MySQL'),
+(12,'Kiran','cpp','database'),
+(13,'seeta','MySQL','database');
+
+create table fac_courses
+(
+cid int primary key,
+cname varchar(20) not null,
+rid int,
+fid int,
+constraint fk_rid foreign key(rid) references room(rid) on delete set null,
+constraint fk_fid foreign key(fid) references faculty(fid) on delete set null
+);
+
+insert into fac_courses values
+(121,'DBDA',100,10);
+insert into fac_courses (cid,cname,rid) values
+(131,'DAC',101);
+insert into fac_courses (cid,cname) values
+(141,'DTISS');
+insert into fac_courses values
+(151,'DIOT',102,12);
+
+create table room
+(
+rid int primary key,
+rname varchar(20) not null,
+rloc varchar(20) 
+);
+
+insert into room values
+(100,'jasmin','1st floor'),
+(101,'Rose','2nd floor'),
+(102,'Lotus','1st floor'),
+(103,'Mogra','1st floor');
+
+1.
+(select * from fac_courses where rid is null)
+union
+(select * from fac_courses where rid is not null);
+
+select cid,cname,rid from fac_courses c where not exists (select r.rid from room r where c.rid=r.rid)
+union
+select rid,rname,rloc from room r where not exists(select c.rid from fac_courses c where c.rid=r.rid);
+
+2.
+select * from faculty f where not exists (select fid from fac_courses c where c.fid=f.fid );
+
+3.
+select * from room  r where exists(select c.rid from fac_courses c where c.rid=r.rid );
+
+4.
+select * from room r where not exists(select c.rid from fac_courses c where c.rid=r.rid);
+
+5.
+select  *
+from fac_courses
+where fid in(select fid from faculty where sp_skill1 = 'database' or sp_skill2='database');
