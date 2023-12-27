@@ -1,0 +1,3 @@
+---PL SQL [Procedural Langauge SQL ]---
+
+--> it works with only DML queries 

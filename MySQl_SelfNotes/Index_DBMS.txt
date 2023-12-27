@@ -1,0 +1,20 @@
+---Index In MYSQL---
+
+--> it is data structure  used  to improve the speed of searching.
+--> user cannot see the indexes they are  used to retruve data from database quickly. 
+--> indexes on primary key,unique constraints are automatically created.
+--> CREATE INDEX is used to create index in tables.
+--> Advantages of Indexes-
+	1.Faster search
+	2.faster retrival 
+--> DIS-ADVANTAGES-
+	1.Extra Space is needed.
+	2.it reduces speed of exceution of DML (Insert,Delete,Update)
+--> Types of Indexes 
+	1) Clustered Index    [Created by system itself, only one,doesnt need extra spacce]
+	2) Non-Clusterd Index [created by developer,can be many,needs extra space, ]
+	
+--> all indexes are  arranged in sorted order . 
+--> Deleting index
+	drop index index_name on table_name;
+

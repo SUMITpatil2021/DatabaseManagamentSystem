@@ -1,0 +1,27 @@
+Views in DBMS -----
+
+--> view are "Virtual Tables ".
+--> it will give access to only particular fields not entire table 
+--> anything change in base table that will reflect in view also  
+--> types of Views 
+	- Read-Only View  [only read, cant change , only permits select query not others  ]
+	- Updatable View  [By Deafault view , we can make any changes ]
+	- Simple View 	  [view creted on only one table ]
+	- Complex View 	  [view created using multiple tables ]
+	- Materialized View [used for remote tables ]
+--> create view 
+	create view view_name 
+
+--> We can perform insert, delete, update operatios on view. 
+--> Insertion operation on views  
+	when we are trying to add data into views that data will also be saved into Base Table also. 
+	insert into view_Name values(-----,--,--,---);
+	- while inserting data, which is not present in base table 
+	  
+--> deletion on views 
+	drop view viewname
+
+	delete from viewname where .... 
+
+--> with check option 
+
